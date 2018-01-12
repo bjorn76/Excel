@@ -44,7 +44,7 @@ Public Sub ImportSourceFiles()
     
     pf = SCprefix
     i = 0
-    If MsgBox("Import VBA? Will write", vbOKCancel, "Import VBA files from Source Control folder(s)") = 2 Then
+    If MsgBox("Import VBA?" & Chr(13) & Chr(10) & "Warning! All modules will be replaced!", vbOKCancel, "Import VBA files from Source Control folder(s)") = 2 Then
       Exit Sub
     End If
     
@@ -162,12 +162,12 @@ End Sub
 
 
 
-Private Sub ImportSourceFilesFrom(sourcepath As String, pIndex As Integer)
+Private Sub ImportSourceFilesFrom(sourcepath As String, i As Integer)
 Dim file As String
 file = Dir(sourcepath)
     While (file <> vbNullString)
       If Not file = (ThisModule & ".bas") Then
-        Application.VBE.VBProjects(pIndex).VBComponents.Import sourcepath & file
+        Application.VBE.VBProjects(i).VBComponents.Import sourcepath & file
       End If
       file = Dir
     Wend
