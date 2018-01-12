@@ -1,5 +1,4 @@
 Attribute VB_Name = "VBA2VersionControl"
-
 Option Explicit
 
 ' This module enables all other modules in current VBA projekt to be
@@ -23,13 +22,15 @@ Public Const SCprefix As String = "B2" ' SourceControlprefix, Only Addins or wor
 
 Public Sub ExportSourceFiles()
     Dim objVBproj As VBProject
-    Dim pf As String
+    Dim pf As String, i As Integer
         
     pf = SCprefix
+    i = 0
     For Each objVBproj In Application.VBE.VBProjects
+      i = i + 1
       If Left(objVBproj.Name, Len(pf)) = pf Then
         MsgBox (sourcepath(objVBproj)) ' Debug
-        ExportSourceFilesTo (sourcepath(objVBproj))
+        Call ExportSourceFilesTo(sourcepath(objVBproj), i)
       End If
     Next
     
@@ -43,12 +44,17 @@ Public Sub ImportSourceFiles()
     
     pf = SCprefix
     i = 0
+    If MsgBox("Import VBA modules? Will write", vbOKCancel, "Import from file") = 2 Then
+      Exit Sub
+    End If
+    
+    
+    
     For Each objVBproj In Application.VBE.VBProjects
       i = i + 1
       
       If Left(objVBproj.Name, Len(pf)) = pf Then
-    
-        MsgBox (sourcepath(objVBproj)) ' Debug
+        'MsgBox (sourcepath(objVBproj)) ' Debug
         RemoveAllModules (i) '(objVBproj)
         Call ImportSourceFilesFrom(sourcepath(objVBproj), i)
       End If
@@ -106,7 +112,7 @@ End Function
 
 
 
-Private Sub ExportSourceFilesTo(destPath As String)
+Private Sub ExportSourceFilesTo(destPath As String, i As Integer)
  
   Dim component As VBComponent
 
@@ -119,7 +125,8 @@ Private Sub ExportSourceFilesTo(destPath As String)
     End If
 
 
-For Each component In Application.VBE.ActiveVBProject.VBComponents
+'For Each component In Application.VBE.ActiveVBProject.VBComponents
+For Each component In Application.VBE.VBProjects(i).VBComponents
     If component.Type = vbext_ct_ClassModule Or component.Type = vbext_ct_StdModule Then
         'component.Export (destPath &amp; component.Name &amp; ToFileExtension(component.Type))
         'component.Export (destPath)
