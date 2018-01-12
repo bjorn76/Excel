@@ -19,13 +19,15 @@ Option Explicit
 
 
 Public Const ThisModule = "VBA2VersionControl" 'used to exclude form import export
-Public Const SCprefix = "B2" ' SourceControlprefix, Addins or worboks prefixed with this 2 letters will be exported/imported
+Public Const SCprefix As String = "B2" ' SourceControlprefix, Only Addins or workbooks prefixed with these letters will be exported/imported to sub folder
 
 Public Sub ExportSourceFiles()
     Dim objVBproj As VBProject
-    For Each objVBproj In Application.VBE.VBProjects
+    Dim pf As String
         
-      If Left(objVBproj.Name, 2) = SCprefix Then
+    pf = SCprefix
+    For Each objVBproj In Application.VBE.VBProjects
+      If Left(objVBproj.Name, Len(pf)) = pf Then
         MsgBox (sourcepath(objVBproj)) ' Debug
         ExportSourceFilesTo (sourcepath(objVBproj))
       End If
@@ -36,17 +38,21 @@ Public Sub ExportSourceFiles()
 End Sub
 
 Public Sub ImportSourceFiles()
-      Dim objVBproj As VBProject
+    Dim objVBproj As VBProject
+    Dim i As Integer, pf As String
+    
+    pf = SCprefix
+    i = 0
+    For Each objVBproj In Application.VBE.VBProjects
+      i = i + 1
       
-      
-      
-      For Each objVBproj In Application.VBE.VBProjects
-        If Left(objVBproj.Name, 2) = SCprefix Then
-          MsgBox (sourcepath(objVBproj)) ' Debug
-          RemoveAllModules (2) '(objVBproj)
-          ImportSourceFilesFrom sourcepath(objVBproj), 2
-        End If
-      Next
+      If Left(objVBproj.Name, Len(pf) = pf) Then
+        MsgBox (sourcepath(objVBproj)) ' Debug
+        
+        RemoveAllModules (i) '(objVBproj)
+        ImportSourceFilesFrom sourcepath(objVBproj), i
+      End If
+    Next
       
 End Sub
     
@@ -100,19 +106,17 @@ End Function
 
 
 
-
-
 Private Sub ExportSourceFilesTo(destPath As String)
  
-Dim component As VBComponent
+  Dim component As VBComponent
 
-'Make folder if it doesn't exist
-If Dir(destPath, vbDirectory) = "" Then
-    MkDir destPath
-    'MsgBox "Folder " & destPath & " created"
-Else
-    'MsgBox "Folder exist" 'Debug
-End If
+    'Make folder if it doesn't exist
+    If Dir(destPath, vbDirectory) = "" Then
+        MkDir destPath
+        'MsgBox "Folder " & destPath & " created"
+    Else
+        'MsgBox "Folder exist" 'Debug
+    End If
 
 
 For Each component In Application.VBE.ActiveVBProject.VBComponents
@@ -141,20 +145,15 @@ Private Function ToFileExtension(vbeComponentType As vbext_ComponentType) As Str
 
 End Function
 
-
-Public Sub RAM()
-  Dim pr As VBProject
-  
+Public Sub RAM() 'Debug func
   RemoveAllModules (2) '(Application.VBE.projects(2))
-  'RemoveAllModules (pr)
 End Sub
 
-Private Sub RemoveAllModules(pIndex As Integer)  '(ByRef prj As VBProject)
+Private Sub RemoveAllModules(i As Integer)  '(ByRef prj As VBProject)
 Dim project As VBProject
-Set project = Application.VBE.VBProjects(pIndex)
-'Set project = prj
- 
 Dim comp As VBComponent
+
+Set project = Application.VBE.VBProjects(i)
 
 For Each comp In project.VBComponents
   If Not comp.Name = ThisModule And (comp.Type = vbext_ct_ClassModule Or comp.Type = vbext_ct_StdModule) Then
