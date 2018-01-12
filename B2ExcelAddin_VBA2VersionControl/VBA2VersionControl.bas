@@ -44,7 +44,7 @@ Public Sub ImportSourceFiles()
     
     pf = SCprefix
     i = 0
-    If MsgBox("Import VBA?" & Chr(13) & Chr(10) & "Warning! All modules will be replaced!", vbOKCancel, "Import VBA files from Source Control folder(s)") = 2 Then
+    If MsgBox("Import VBA? (to Projects prefixed '" & SCprefix & "')" & Chr(13) & Chr(10) & "Warning! All modules will be replaced!", vbOKCancel, "Import VBA files from Source Control folder(s)") = 2 Then
       Exit Sub
     End If
     
