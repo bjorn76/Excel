@@ -29,7 +29,7 @@ Public Sub ExportSourceFiles()
     For Each objVBproj In Application.VBE.VBProjects
       i = i + 1
       If Left(objVBproj.Name, Len(pf)) = pf Then
-        MsgBox (sourcepath(objVBproj)) ' Debug
+        'MsgBox (sourcepath(objVBproj)) ' Debug
         Call ExportSourceFilesTo(sourcepath(objVBproj), i)
       End If
     Next
@@ -44,7 +44,7 @@ Public Sub ImportSourceFiles()
     
     pf = SCprefix
     i = 0
-    If MsgBox("Import VBA modules? Will write", vbOKCancel, "Import from file") = 2 Then
+    If MsgBox("Import VBA? Will write", vbOKCancel, "Import VBA files from Source Control folder(s)") = 2 Then
       Exit Sub
     End If
     
@@ -62,18 +62,7 @@ Public Sub ImportSourceFiles()
       
 End Sub
     
-Public Sub SPmessage() ' Debugg func
-   
-  
-    Dim objVBproj As VBProject
-    For Each objVBproj In Application.VBE.VBProjects
-      If Left(objVBproj.Name, 2) = SCprefix Then
-        MsgBox (sourcepath(objVBproj))
-      End If
-    Next
-    
-  
-End Sub
+
 
 
 Private Function sourcepath(objVBproj As VBProject) As String
