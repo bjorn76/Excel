@@ -46,11 +46,11 @@ Public Sub ImportSourceFiles()
     For Each objVBproj In Application.VBE.VBProjects
       i = i + 1
       
-      If Left(objVBproj.Name, Len(pf) = pf) Then
+      If Left(objVBproj.Name, Len(pf)) = pf Then
+    
         MsgBox (sourcepath(objVBproj)) ' Debug
-        
         RemoveAllModules (i) '(objVBproj)
-        ImportSourceFilesFrom sourcepath(objVBproj), i
+        Call ImportSourceFilesFrom(sourcepath(objVBproj), i)
       End If
     Next
       
