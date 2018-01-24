@@ -114,12 +114,10 @@ Private Sub ExportSourceFilesTo(destPath As String, i As Integer)
     End If
 
 
-'For Each component In Application.VBE.ActiveVBProject.VBComponents
+
 For Each component In Application.VBE.VBProjects(i).VBComponents
-    If component.Type = vbext_ct_ClassModule Or component.Type = vbext_ct_StdModule Then
-        'component.Export (destPath &amp; component.Name &amp; ToFileExtension(component.Type))
-        'component.Export (destPath)
-        component.Export (destPath & component.Name & ToFileExtension(component.Type))
+    If component.Type = vbext_ct_ClassModule Or component.Type = vbext_ct_StdModule Or component.Type = vbext_ct_MSForm Then
+      component.Export (destPath & component.Name & ToFileExtension(component.Type))
     End If
 Next
  
