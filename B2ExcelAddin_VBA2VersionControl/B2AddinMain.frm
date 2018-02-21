@@ -47,8 +47,17 @@ Private Sub btnExportPNG_Click()
 End Sub
 
 
+Private Sub btnExportSourceFiles_Click()
+  VBA2VersionControl.ExportSourceFiles
+End Sub
+
 Private Sub btnFont_Click()
   ActiveChart.SelectChartFont
+End Sub
+
+Private Sub btnImportSourceFile_Click()
+  MsgBox "to do"
+  
 End Sub
 
 Private Sub btnInitSheetsCombo_Click()
@@ -125,4 +134,5 @@ EHand:
   MsgBox ("Workbook " & cbSelActiveWB.Value & " not open")
 
 End Sub
+
 
