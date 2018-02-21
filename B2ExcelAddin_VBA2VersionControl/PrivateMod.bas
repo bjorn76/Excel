@@ -8,10 +8,6 @@ Sub ChartLables(objChart As Excel.Chart, title, xlabel, ylabel As String)
   objChart.Axes(xlCategory).AxisTitle.Text = xlabel
   
   
-  
-  
-  
-
 End Sub
 
 
@@ -96,7 +92,8 @@ Sub ChartSeriesFixedLook(objChart As Excel.Chart)
     
     objChart.Activate
      
-    For Each srs In ActiveChart.FullSeriesCollection
+    'For Each srs In ActiveChart.FullSeriesCollection
+    For Each srs In objChart.FullSeriesCollection
         i = i + 1
         
         'Common look
@@ -128,7 +125,7 @@ Sub ChartSeriesFixedLook(objChart As Excel.Chart)
        
        
        Case 1
-       With ActiveChart.SeriesCollection(i)
+       With Application.ActiveChart.SeriesCollection(i)
          'B2.Datalab
          .MarkerStyle = xlMarkerStyleCircle
          .Format.line.ForeColor.RGB = mycolors(i)
@@ -137,7 +134,7 @@ Sub ChartSeriesFixedLook(objChart As Excel.Chart)
        End With
        
        Case 2
-       With ActiveChart.SeriesCollection(i)
+       With Application.ActiveChart.SeriesCollection(i)
          .MarkerStyle = xlMarkerStyleDiamond
          .Format.line.ForeColor.RGB = mycolors(i)
          .Format.Fill.ForeColor.RGB = mycolors(i)
@@ -146,21 +143,21 @@ Sub ChartSeriesFixedLook(objChart As Excel.Chart)
  
   
        Case 3
-       With ActiveChart.SeriesCollection(i)
+       With Application.ActiveChart.SeriesCollection(i)
          .MarkerStyle = xlMarkerStyleStar
          .Format.line.ForeColor.RGB = mycolors(i)
          .Format.Fill.ForeColor.RGB = mycolors(i)
        End With
        
        Case 4
-       With ActiveChart.SeriesCollection(i)
+       With Application.ActiveChart.SeriesCollection(i)
          .MarkerStyle = xlMarkerStyleX
          .Format.line.ForeColor.RGB = mycolors(i)
          .Format.Fill.ForeColor.RGB = mycolors(i)
        End With
        
        Case 5
-       With ActiveChart.SeriesCollection(i)
+       With Application.ActiveChart.SeriesCollection(i)
          .MarkerStyle = xlMarkerStyleTriangle
          .Format.line.ForeColor.RGB = mycolors(i)
          .Format.Fill.ForeColor.RGB = mycolors(i)
@@ -170,14 +167,14 @@ Sub ChartSeriesFixedLook(objChart As Excel.Chart)
        
        
        Case 6
-       ActiveChart.SeriesCollection(i).MarkerStyle = xlMarkerStyleCircle
-       ActiveChart.SeriesCollection(i).MarkerSize = 6
-       With ActiveChart.SeriesCollection(i).Format.line
+       Application.ActiveChart.SeriesCollection(i).MarkerStyle = xlMarkerStyleCircle
+       Application.ActiveChart.SeriesCollection(i).MarkerSize = 6
+       With Application.ActiveChart.SeriesCollection(i).Format.line
          '.DashStyle = xlDashDot
          .ForeColor.RGB = mycolors(i)
        End With
        
-       With ActiveChart.SeriesCollection(i).Format.Fill
+       With Application.ActiveChart.SeriesCollection(i).Format.Fill
          .Visible = msoTrue
          .ForeColor.RGB = mycolors(i)
          .ForeColor.ObjectThemeColor = msoThemeColorAccent1

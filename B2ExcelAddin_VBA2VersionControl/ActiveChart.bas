@@ -1,24 +1,112 @@
 Attribute VB_Name = "ActiveChart"
 Option Explicit
 
+'vbAbort =  3
+'vbCancel = 2
+'vbIgnore = 5
+'vbNo =     7
+'vbOK =     1
+'vbRetry =  4
+'vbYes =    6
+
+'vbOKOnly             0   Display OK button only.
+'vbOKCancel           1   Display OK and Cancel buttons.
+'vbAbortRetryIgnore   2   Display Abort, Retry, and Ignore buttons.
+'vbYesNoCancel        3   Display Yes, No, and Cancel buttons.
+'vbYesNo              4   Display Yes and No buttons.
+'vbRetryCancel        5   Display Retry and Cancel buttons.
+'vbCritical          16  Display Critical Message icon.
+'vbQuestion          32  Display Warning Query icon.
+'vbExclamation       48  Display Warning Message icon.
+'vbInformation       64  Display Information Message icon.
+
+
+Sub SelectChartFont()
+    Dim chrt As Chart
+    Dim sFS As String
+    Dim iFontSize As Integer
+    
+    
+       
+    Set chrt = Application.ActiveWorkbook.ActiveChart
+
+   'User confirmation
+    If MsgBox("Modify Chart Font Size?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+    
+    sFS = InputBox("Enter size", "Font Size", 16)
+    
+    iFontSize = CInt(sFS)
+    
+    SetChartFont (iFontSize)
+    
+    
+
+End Sub
+
+
+
 Private Sub SetChartFont(FontSize As Integer)
     Dim Lent As LegendEntry
+    Dim chrt As Chart
     
-    ActiveChart.ChartTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+    Set chrt = Application.ActiveChart
     
-    For Each Lent In ActiveChart.Legend.LegendEntries
-      Lent.Format.TextFrame2.TextRange.Font.Size = FontSize
-    Next Lent
     
-    ActiveChart.Axes(xlCategory).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
-    ActiveChart.Axes(xlValue).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
     
+'    chrt.ChartTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+'
+'    For Each Lent In chrt.Legend.LegendEntries
+'      Lent.Format.TextFrame2.TextRange.Font.Size = FontSize
+'    Next Lent
+'
+'    chrt.Axes(xlCategory).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+'    chrt.Axes(xlValue).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+    
+    chrt.ChartArea.Font.Size = FontSize
     'To do: size of axis values
-    'ActiveChart.Axes(xlCategory).Text.Font = FontSize
+    'chrt.Axes(xlCategory).Text.Font = FontSize
     'ActiveChart.Axes(xlCategory).Value.Format.TextFrame2.TextRange.Font.Size = FontSize
+'    With chrt.Axes(xlCategory).Format.TextFrame2.TextRange.Font
+'      .BaselineOffset = 0
+'      .Size = FontSize
+'    End With
     
   
 End Sub
+
+Public Sub LineW()
+    Dim chrt As Chart
+    Dim i As Integer
+    Dim srs As Series
+       
+    Set chrt = Application.ActiveWorkbook.ActiveChart
+    
+   'User confirmation
+    If MsgBox("Modify Line weight?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+    
+    
+    chrt.Activate 'must activate to access series properties
+    'For Each srs In ActiveChart.FullSeriesCollection
+    For Each srs In Application.ActiveChart.SeriesCollection
+        i = i + 1
+
+        'Common look
+        srs.Format.line.Weight = 0.5
+        srs.Format.line.DashStyle = xlSolid
+        'xlNone, xlSolid, xlDash, xlDot, xlDashDot, xlDashDotDot,
+        'srs.MarkerSize = 10
+        srs.Format.Fill.Visible = msoFalse
+        srs.HasDataLabels = False  'new 8 jan
+      Next
+        
+End Sub
+       
+       
+       
 
 Sub Font10()
    SetChartFont (10)
@@ -33,12 +121,14 @@ Sub Font24()
 End Sub
 
 Sub ChartLables()
-  ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "NOx (g/kWh)"
-  ActiveChart.Axes(xlCategory).AxisTitle.Text = "ANR"
+  Application.ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "NOx (g/kWh)"
+  Application.ActiveChart.Axes(xlCategory).AxisTitle.Text = "ANR"
   
-  ActiveChart.ChartTitle.Text = "ETC" & Chr(13) & "Aged DW3200 systems"
+  Application.ActiveChart.ChartTitle.Text = "ETC" & Chr(13) & "Aged DW3200 systems"
   
-  MsgBox ActiveChart.Name
+  MsgBox Application.ActiveChart.Name
+  
+
   
   
   'ActiveChart.Type = xlXYScatterLines
@@ -48,7 +138,7 @@ End Sub
 
 
 Sub ChartScale()
-    With ActiveChart.Axes(xlValue)
+    With Application.ActiveChart.Axes(xlValue)
       .MaximumScale = 3
       .MinimumScale = 0
       .MajorUnit = 0.2
@@ -56,8 +146,9 @@ Sub ChartScale()
     End With
     
     
-    ActiveChart.Axes(xlCategory).MaximumScale = 1.2
-    ActiveChart.Axes(xlCategory).MinimumScale = 0.8
+    Application.ActiveChart.Axes(xlCategory).MaximumScale = 1.2
+    Application.ActiveChart.Axes(xlCategory).MinimumScale = 0.8
     
 End Sub
+
 

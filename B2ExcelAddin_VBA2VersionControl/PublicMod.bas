@@ -5,14 +5,15 @@ Sub Main()
   Dim ct As Chart
   Dim rv As Integer
       
-  rv = MsgBox(ActiveChart.Name & " Do you want to change the look?", vbOKCancel, "ActiveChart is...")
+  'Workbook
+  rv = MsgBox(Application.ActiveChart.Name & " Do you want to change the look?", vbOKCancel, "ActiveChart is...")
   If rv = 2 Then Exit Sub
   
-  Set ct = ActiveChart
+  Set ct = Application.ActiveChart
   ChartSeriesFixedLook ct
   'ChartScaleUswing ct
   'ChartLables ct, "NOx Conversion U-Swing", "Temp(°C)", "NOx Conv.(%)"
-  ExportPNG
+  PrivateMod.ExportPNG
   
   
 End Sub
@@ -23,7 +24,7 @@ Sub MainTest()
  Dim R1, R2 As Range
  
 
-rv = MsgBox(ActiveChart.Name & "    Proceed? ", vbOKCancel, "MainTest")
+rv = MsgBox(Application.ActiveChart.Name & "    Proceed? ", vbOKCancel, "MainTest")
   If rv = 2 Then Exit Sub
   'MsgBox rv
   'MsgBox ActiveChart.FullSeriesCollection(5).Name
@@ -41,6 +42,6 @@ Sub MainTest2()
  Dim R1, R2 As Range
  
 
-rv = MsgBox(ActiveChart.Name & "    Proceed? ", vbOKCancel, "MainTest")
+rv = MsgBox(Application.ActiveChart.Name & "    Proceed? ", vbOKCancel, "MainTest")
   
 End Sub
