@@ -1,22 +1,22 @@
 Attribute VB_Name = "PublicMod"
 Option Explicit
 
-Sub Main()
-  Dim ct As Chart
-  Dim rv As Integer
-      
-  'Workbook
-  rv = MsgBox(Application.ActiveChart.Name & " Do you want to change the look?", vbOKCancel, "ActiveChart is...")
-  If rv = 2 Then Exit Sub
-  
-  Set ct = Application.ActiveChart
-  ChartSeriesFixedLook ct
-  'ChartScaleUswing ct
-  'ChartLables ct, "NOx Conversion U-Swing", "Temp(°C)", "NOx Conv.(%)"
-  PrivateMod.ExportPNG
-  
-  
-End Sub
+'Sub Main()
+'  Dim ct As Chart
+'  Dim rv As Integer
+'
+'  'Workbook
+'  rv = MsgBox(Application.ActiveChart.Name & " Do you want to change the look?", vbOKCancel, "ActiveChart is...")
+'  If rv = 2 Then Exit Sub
+'
+'  Set ct = Application.ActiveChart
+'  ChartSeriesFixedLook ct
+'  'ChartScaleUswing ct
+'  'ChartLables ct, "NOx Conversion U-Swing", "Temp(°C)", "NOx Conv.(%)"
+'  PrivateMod.ExportPNG
+'
+'
+'End Sub
 
 
 Sub MainTest()

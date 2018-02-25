@@ -1,4 +1,4 @@
-Attribute VB_Name = "ActiveWB"
+Attribute VB_Name = "mActiveWB"
 Option Explicit
 
 Sub ExportPNG()

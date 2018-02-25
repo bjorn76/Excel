@@ -43,7 +43,7 @@ End Sub
 
 
 Private Sub btnExportPNG_Click()
-  ActiveWB.ExportPNG
+  mActiveWB.ExportPNG
 End Sub
 
 
@@ -52,7 +52,7 @@ Private Sub btnExportSourceFiles_Click()
 End Sub
 
 Private Sub btnFont_Click()
-  ActiveChart.SelectChartFont
+  mActiveChart.SelectChartFont
 End Sub
 
 Private Sub btnImportSourceFile_Click()
@@ -72,14 +72,21 @@ Private Sub btnInitSheetsCombo_Click()
    
 End Sub
 
+Private Sub btnLine_Click()
+ mActiveChart.SetLine
+
+End Sub
+
+Private Sub btnLineColor_Click()
+  mActiveChart.SetLineColor
+End Sub
+
 Private Sub btnLineW_Click()
-  ActiveChart.LineW
+  mActiveChart.LineW
 
 End Sub
 
-Private Sub btnMain_Click()
-  PublicMod.Main
-End Sub
+
 
 Private Sub btnOpenCompMac_Click()
   Dim wb As Workbook
@@ -134,5 +141,6 @@ EHand:
   MsgBox ("Workbook " & cbSelActiveWB.Value & " not open")
 
 End Sub
+
 
 

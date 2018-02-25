@@ -1,4 +1,4 @@
-Attribute VB_Name = "ActiveChart"
+Attribute VB_Name = "mActiveChart"
 Option Explicit
 
 'vbAbort =  3
@@ -64,7 +64,14 @@ Private Sub SetChartFont(FontSize As Integer)
 '    chrt.Axes(xlCategory).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
 '    chrt.Axes(xlValue).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
     
-    chrt.ChartArea.Font.Size = FontSize
+    'chrt.ChartArea.Font.Size = FontSize
+    
+    With chrt.ChartArea.Font
+      .Size = FontSize
+      .Bold = True
+    
+    End With
+    
     'To do: size of axis values
     'chrt.Axes(xlCategory).Text.Font = FontSize
     'ActiveChart.Axes(xlCategory).Value.Format.TextFrame2.TextRange.Font.Size = FontSize
@@ -95,13 +102,50 @@ Public Sub LineW()
         i = i + 1
 
         'Common look
-        srs.Format.line.Weight = 0.5
-        srs.Format.line.DashStyle = xlSolid
+        srs.Format.Line.Weight = 0.5
+        srs.Format.Line.DashStyle = xlSolid
         'xlNone, xlSolid, xlDash, xlDot, xlDashDot, xlDashDotDot,
         'srs.MarkerSize = 10
         srs.Format.Fill.Visible = msoFalse
         srs.HasDataLabels = False  'new 8 jan
       Next
+        
+End Sub
+
+Public Sub SetLine()
+    Dim chrt As Chart
+    Dim i As Integer
+    Dim srs As Series
+       
+    Set chrt = Application.ActiveWorkbook.ActiveChart
+    
+   'User confirmation
+    If MsgBox("Modify Line?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+    
+    ChartEdit.ChartSeriesLine chrt
+    
+    
+    
+        
+End Sub
+Public Sub SetLineColor()
+    Dim chrt As Chart
+    Dim i As Integer
+    Dim srs As Series
+       
+    Set chrt = Application.ActiveWorkbook.ActiveChart
+    
+   'User confirmation
+    If MsgBox("Modify Line Color?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+    
+    ChartEdit.ChartSeriesColor chrt
+    
+    
+    
         
 End Sub
        
