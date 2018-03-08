@@ -1,9 +1,10 @@
 Attribute VB_Name = "OpenForms"
 Option Explicit
+'This module contains macros inteded to use from Quick Access Toolbar
+
 
 
 
 Public Sub OpenAllUserForms()
-  'UserForm1.Show
   B2AddinMain.Show
 End Sub
