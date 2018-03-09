@@ -26,6 +26,58 @@ Option Explicit
 'vbInformation       64  Display Information Message icon.
 
 
+'Sub FormatCharts()
+'  Dim obj As Object
+'
+'  If Not ActiveChart Is Nothing Then
+'    FormatOneChart ActiveChart
+'  Else
+'    For Each obj In Selection
+'      If TypeName(obj) = "ChartObject" Then
+'        FormatOneChart obj.Chart
+'      End If
+'    Next
+'  End If
+'End Sub
+'
+'Sub FormatOneChart(cht As Chart)
+'  ' do all your formatting here, based on cht not on ActiveChart
+'End Sub
+
+
+
+
+
+'Sub MultiSelectChartTemplate()
+'  Dim obj As Object
+'
+'
+'  If Not ActiveChart Is Nothing Then
+'
+'    'User confirmation
+'    If MsgBox("Modify Chart?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+'      Exit Sub
+'    End If
+'
+'    'My modifers sub
+'    FormatOneChart ActiveChart
+'  Else
+'    'User confirmation to modify more than one graph
+'    If MsgBox("Modify Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+'      Exit Sub
+'    End If
+'
+'    For Each obj In Selection
+'      If TypeName(obj) = "ChartObject" Then
+'        FormatOneChart obj.Chart
+'      End If
+'    Next
+'  End If
+'End Sub
+
+
+
+
 
 
 Sub ChartExpPNG()
@@ -59,43 +111,37 @@ End Sub
 
 
 
-Sub SetCol()
+Sub SetClusteredColumn()
+  Dim obj As Object
+  If Not ActiveChart Is Nothing Then
 
-    Dim chrt As Chart
-    Dim i As Integer
-    Dim srs As Series
-       
-    Set chrt = Application.ActiveWorkbook.ActiveChart
-    
-   'User confirmation
-    If MsgBox("Modify Chart?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+    'User confirmation
+    If MsgBox("Modify Chart?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
+
+    'My modifers sub
+       mChart.ChartSeriesClustCol ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Modify Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.ChartSeriesClustCol obj.Chart
+      End If
+    Next
+  End If
     
-    mChart.ChartSeriesClustCol chrt
+    
+    
+        
+    
+    
 
 End Sub
-
-
-'Sub FormatCharts()
-'  Dim obj As Object
-'
-'  If Not ActiveChart Is Nothing Then
-'    FormatOneChart ActiveChart
-'  Else
-'    For Each obj In Selection
-'      If TypeName(obj) = "ChartObject" Then
-'        FormatOneChart obj.Chart
-'      End If
-'    Next
-'  End If
-'End Sub
-'
-'Sub FormatOneChart(cht As Chart)
-'  ' do all your formatting here, based on cht not on ActiveChart
-'End Sub
-
-
 
 
 Sub SelectChartFont()
@@ -106,93 +152,74 @@ Sub SelectChartFont()
     Dim obj As Object
     
     If Not ActiveChart Is Nothing Then
-      'FormatOneChart ActiveChart
-      Set chrt = Application.ActiveWorkbook.ActiveChart
-      
       'User confirmation
-    If MsgBox("Modify Chart Font Size?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
-      Exit Sub
-    End If
-    
-    sFS = InputBox("Enter size", "Font Size", 16)
-    
-    iFontSize = CInt(sFS)
-    
-    SetChartFont (iFontSize)
-      
-      
-      
-      
-      
-    Else
-      'For Each obj In Selection
-           
-      
-      
-      If MsgBox("Modify Chart Font Size?" & Chr(13) & Chr(10) & Selection.Count & " graphs are selected", vbOKCancel, "?") <> 1 Then
+      If MsgBox("Modify ChartArea Font Size?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
         Exit Sub
       End If
-      
-      
-      
+      sFS = InputBox("Enter size", "Font Size", 16)
+      iFontSize = CInt(sFS)
+      'SetChartFont (iFontSize)
+      mChart.ChartFontSize ActiveChart, iFontSize
+    Else
+      'For Each obj In Selection
+              
+      If MsgBox("Modify ChartAreas Font Sizes?" & Chr(13) & Chr(10) & Selection.Count & " graphs are selected", vbOKCancel, "?") <> 1 Then
+        Exit Sub
+      End If
+      sFS = InputBox("Enter size", "Font Size", 16)
+      iFontSize = CInt(sFS)
+    
       For Each obj In Selection
         If TypeName(obj) = "ChartObject" Then
-          'FormatOneChart obj.Chart
-          MsgBox obj.Name
-      
-          
+          mChart.ChartFontSize obj.Chart, iFontSize
           
         End If
       Next
     End If
  
-    
-       
-    
-
-
-    
-    
+   
 
 End Sub
 
 
 
-Private Sub SetChartFont(FontSize As Integer)
-    Dim Lent As LegendEntry
-    Dim chrt As Chart
-    
-    Set chrt = Application.ActiveChart
-    
-    
-    
-'    chrt.ChartTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+'Private Sub SetChartFont(FontSize As Integer)
+'    Dim Lent As LegendEntry
+'    Dim chrt As Chart
 '
-'    For Each Lent In chrt.Legend.LegendEntries
-'      Lent.Format.TextFrame2.TextRange.Font.Size = FontSize
-'    Next Lent
+'    Set chrt = Application.ActiveChart
 '
-'    chrt.Axes(xlCategory).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
-'    chrt.Axes(xlValue).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
-    
-    'chrt.ChartArea.Font.Size = FontSize
-    
-    With chrt.ChartArea.Font
-      .Size = FontSize
-      .Bold = True
-    
-    End With
-    
-    'To do: size of axis values
-    'chrt.Axes(xlCategory).Text.Font = FontSize
-    'ActiveChart.Axes(xlCategory).Value.Format.TextFrame2.TextRange.Font.Size = FontSize
-'    With chrt.Axes(xlCategory).Format.TextFrame2.TextRange.Font
-'      .BaselineOffset = 0
+'
+'    With chrt.ChartArea.Font
 '      .Size = FontSize
+'      .Bold = True
+'
 '    End With
     
+    
+    
+    
+    
+'  Below is sample code to modify font of individual elements in ChartArea
+'  -----------------------------------------------------------------------
+'  chrt.ChartTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+'  For Each Lent In chrt.Legend.LegendEntries
+'  Lent.Format.TextFrame2.TextRange.Font.Size = FontSize
+'  Next Lent
+'  chrt.Axes(xlCategory).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+'  chrt.Axes(xlValue).AxisTitle.Format.TextFrame2.TextRange.Font.Size = FontSize
+'  chrt.ChartArea.Font.Size = FontSize
+'
+'  To do: size of axis values
+'  chrt.Axes(xlCategory).Text.Font = FontSize
+'  ActiveChart.Axes(xlCategory).Value.Format.TextFrame2.TextRange.Font.Size = FontSize
+'  With chrt.Axes(xlCategory).Format.TextFrame2.TextRange.Font
+'  .BaselineOffset = 0
+'  .Size = FontSize
+'  End With
+'
   
-End Sub
+'End Sub
 
 Public Sub LineW()
     Dim chrt As Chart
@@ -226,61 +253,112 @@ Public Sub LineW()
 End Sub
 
     
-    
-        
+Public Sub SetChartSeriesNoMarker()
+  Dim obj As Object
 
 
-Public Sub SetLine()
-    Dim chrt As Chart
-    Dim i As Integer
-    Dim srs As Series
-       
-    Set chrt = Application.ActiveWorkbook.ActiveChart
-    
-   'User confirmation
-    If MsgBox("Modify Line?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+  If Not ActiveChart Is Nothing Then
+
+    'User confirmation
+    If MsgBox("Remove Markers?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
-    
-    mChart.ChartSeriesLine chrt
-    
-    
-    
-        
+
+    'My modifers sub
+    mChart.ChartSeriesNoMarker ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Remove Markers on multi Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.ChartSeriesNoMarker obj.Chart
+      End If
+    Next
+  End If
 End Sub
+        
+
+
+Public Sub SetLineAndMarkers()
+    Dim obj As Object
+       
+  If Not ActiveChart Is Nothing Then
+
+    'User confirmation
+    If MsgBox("Line + Markers to Chart?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    mChart.ChartSeriesLineAndMarker ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Line + Markers to Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.ChartSeriesLineAndMarker obj.Chart
+      End If
+    Next
+  End If
+End Sub
+
+
 Public Sub SetLineColor()
-    Dim chrt As Chart
-    Dim i As Integer
-    Dim srs As Series
-       
-    Set chrt = Application.ActiveWorkbook.ActiveChart
-    
-   'User confirmation
-    If MsgBox("Modify Line Color?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+  Dim obj As Object
+  
+
+  If Not ActiveChart Is Nothing Then
+    'User confirmation
+    If MsgBox("Modify Line and Marker Color?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
-    
-    mChart.ChartSeriesColor chrt
-    
-    
+
+    'My modifers sub
+    mChart.ChartSeriesColor ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Modify Line and Marker Color?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.ChartSeriesColor obj.Chart
+      End If
+    Next
+  End If
+End Sub
     
         
-End Sub
+
        
        
        
+       
+       
+       
+'//////////////////////////////////////
+' TODO - FIX FORMAT OFF CODE BELOW
 
-Sub Font10()
-   SetChartFont (10)
-End Sub
 
-Sub Font16()
-   SetChartFont (16)
-End Sub
 
-Sub Font24()
-   SetChartFont (24)
-End Sub
+'Sub Font10()
+'   SetChartFont (10)
+'End Sub
+'
+'Sub Font16()
+'   SetChartFont (16)
+'End Sub
+'
+'Sub Font24()
+'   SetChartFont (24)
+'End Sub
 
 Sub ChartLables()
   Application.ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "NOx (g/kWh)"

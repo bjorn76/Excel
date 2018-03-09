@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} B2AddinMain 
    Caption         =   "Main (B2 Addin)"
-   ClientHeight    =   2385
+   ClientHeight    =   1830
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   11190
+   ClientWidth     =   8280
    OleObjectBlob   =   "B2AddinMain.frx":0000
    ShowModal       =   0   'False
 End
@@ -36,6 +36,18 @@ Const COMPMACROFILE = "JMR_Comparison_Macro_B2_V003.xlsm"
 
 
 
+
+
+
+Private Sub BtnNoMarkers_Click()
+  mChartSelected.SetChartSeriesNoMarker
+  
+End Sub
+
+Private Sub btnRefresh_Click()
+  UserForm_Initialize
+End Sub
+
 '***********************************************************
 'Form Event Handlers
 '***********************************************************
@@ -46,9 +58,22 @@ Private Sub UserForm_Initialize()
   InitWBcombo
   InitSheetsCombo
   'MsgBox "UserForm init completed" 'Debug line
+  EnableMacroButtons WBOpen(COMPMACROFILE)
   Me.EnableEvents = True
 End Sub
 
+
+Function WBOpen(strBookName As String) As Boolean
+    Dim oBk As Workbook
+    On Error Resume Next
+    Set oBk = Workbooks(strBookName)
+    On Error GoTo 0
+    If oBk Is Nothing Then
+        WBOpen = False
+    Else
+        WBOpen = True
+    End If
+End Function
 
 '***********************************************************
 'Combo Events
@@ -170,18 +195,6 @@ End Sub
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 '***********************************************************
 'JMR Compmacro
 '***********************************************************
@@ -199,7 +212,11 @@ Private Sub btnOpenCompMac_Click()
   Dim i As Integer
   
   Application.ScreenUpdating = False
+  
+  'Open Macro worbook
+  Application.Workbooks.Open (COMPMACROPATH & COMPMACROFILE)
      
+  'Loop through windows and minimize wb windos
   For i = 1 To Application.Windows.Count
     'MsgBox Application.Windows(i).Caption & " " & COMPMACROFILE ' Debug
     If (Application.Windows(i).Caption = COMPMACROFILE) Then
@@ -209,6 +226,7 @@ Private Sub btnOpenCompMac_Click()
     i = i + 1
    Next
   
+  'Make macros in workbook available for user
   EnableMacroButtons (True)
      
   Application.ScreenUpdating = True
@@ -264,7 +282,7 @@ Private Sub btnChartExpPNG_Click()
 End Sub
 
 Private Sub btnClustColFormat_Click()
-  SetCol
+  SetClusteredColumn
   
 End Sub
 
@@ -287,7 +305,7 @@ End Sub
 
 
 Private Sub btnLine_Click()
- mChartSelected.SetLine
+ mChartSelected.SetLineAndMarkers
 
 End Sub
 
