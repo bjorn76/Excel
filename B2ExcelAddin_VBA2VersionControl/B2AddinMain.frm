@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} B2AddinMain
    ClientHeight    =   1830
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   8280
+   ClientWidth     =   13680
    OleObjectBlob   =   "B2AddinMain.frx":0000
    ShowModal       =   0   'False
 End
@@ -39,8 +39,27 @@ Const COMPMACROFILE = "JMR_Comparison_Macro_B2_V003.xlsm"
 
 
 
+
+
+Private Sub btnLineStyle_Click()
+  SetChartSeriesLineType
+End Sub
+
+Private Sub btnMarkers_Click()
+  mChartSelected.SetChartSeriesMarker
+
+End Sub
+
 Private Sub BtnNoMarkers_Click()
   mChartSelected.SetChartSeriesNoMarker
+  
+End Sub
+
+Private Sub btnOpenExplorer_Click()
+  Dim p As String
+  
+  p = Application.ActiveWorkbook.Path
+  Shell "explorer.exe /root," & p, vbNormalFocus
   
 End Sub
 
@@ -311,6 +330,11 @@ End Sub
 
 Private Sub btnLineColor_Click()
   mChartSelected.SetLineColor
+End Sub
+
+
+Private Sub btnMarkerColor_Click()
+  mChartSelected.SetMarkerColor
 End Sub
 
 Private Sub btnLineW_Click()

@@ -221,31 +221,66 @@ End Sub
   
 'End Sub
 
+
+'
+
+
+
+
+Sub SetChartSeriesLineType()
+  Dim obj As Object
+
+
+  If Not ActiveChart Is Nothing Then
+
+    'User confirmation
+    If MsgBox("Modify Linetype in Chart?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    ChartSeriesLineType ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Modify LineType in Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        ChartSeriesLineType obj.Chart
+      End If
+    Next
+  End If
+End Sub
+
+
+
+
+
+
 Public Sub LineW()
-    Dim chrt As Chart
-    Dim i As Integer
-    Dim srs As Series
     Dim obj As Object
     
-       
-    Set chrt = Application.ActiveWorkbook.ActiveChart
-    
-   'User confirmation
 
     
     
   If Not ActiveChart Is Nothing Then
-    If MsgBox("Modify Line weight?" & Chr(13) & Chr(10) & chrt.Name, vbOKCancel, "?") <> 1 Then
+    If MsgBox("Modify Line Weight on " & Chr(13) & Chr(10) & ActiveChart.Name & "?", vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
-    mChart.LineW05 Application.ActiveWorkbook.ActiveChart
+    mChart.LineW05 ActiveChart
   
   Else
+    
+    If MsgBox("Modify Line Weight?" & Chr(13) & Chr(10) & Selection.Count & " charts", vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+    
+    
     For Each obj In Selection
       If TypeName(obj) = "ChartObject" Then
-        'FormatOneChart obj.Chart
-        'Do do.....
-        
+        mChart.LineW05 obj.Chart
         
       End If
     Next
@@ -253,6 +288,38 @@ Public Sub LineW()
 End Sub
 
     
+
+
+
+Public Sub SetChartSeriesMarker()
+  Dim obj As Object
+
+
+  If Not ActiveChart Is Nothing Then
+
+    'User confirmation
+    If MsgBox("Remove Markers?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    mChart.ChartSeriesMarker ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Remove Markers on multi Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.ChartSeriesMarker obj.Chart
+      End If
+    Next
+  End If
+End Sub
+        
+
+
 Public Sub SetChartSeriesNoMarker()
   Dim obj As Object
 
@@ -315,21 +382,50 @@ Public Sub SetLineColor()
 
   If Not ActiveChart Is Nothing Then
     'User confirmation
-    If MsgBox("Modify Line and Marker Color?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+    If MsgBox("Modify Line Color?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
 
     'My modifers sub
-    mChart.ChartSeriesColor ActiveChart
+    mChart.ChartSeriesColorLine ActiveChart
   Else
     'User confirmation to modify more than one graph
-    If MsgBox("Modify Line and Marker Color?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+    If MsgBox("Modify Line Color?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
 
     For Each obj In Selection
       If TypeName(obj) = "ChartObject" Then
-        mChart.ChartSeriesColor obj.Chart
+        mChart.ChartSeriesColorLine obj.Chart
+      End If
+    Next
+  End If
+End Sub
+
+
+
+
+Public Sub SetMarkerColor()
+  Dim obj As Object
+  
+
+  If Not ActiveChart Is Nothing Then
+    'User confirmation
+    If MsgBox("Modify Marker Color?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    mChart.ChartSeriesColorMarkers ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Modify Marker Color?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.ChartSeriesColorMarkers obj.Chart
       End If
     Next
   End If
