@@ -298,7 +298,7 @@ Public Sub SetChartSeriesMarker()
   If Not ActiveChart Is Nothing Then
 
     'User confirmation
-    If MsgBox("Remove Markers?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+    If MsgBox("Add Markers?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
 
@@ -306,7 +306,7 @@ Public Sub SetChartSeriesMarker()
     mChart.ChartSeriesMarker ActiveChart
   Else
     'User confirmation to modify more than one graph
-    If MsgBox("Remove Markers on multi Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+    If MsgBox("Add Markers on multi Charts?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
       Exit Sub
     End If
 
@@ -432,9 +432,86 @@ Public Sub SetMarkerColor()
 End Sub
     
         
+        
+Public Sub SetX_ScaleFirst30s()
+  Dim obj As Object
+  
 
-       
-       
+  If Not ActiveChart Is Nothing Then
+    'User confirmation
+    If MsgBox("Modify X-scale?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    mChart.SetX_Scale ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Modify X-scale?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.SetX_Scale obj.Chart
+      End If
+    Next
+  End If
+End Sub
+
+
+'SetX_ScaleNext
+Public Sub SetX_ScaleNext()
+  Dim obj As Object
+  
+
+  If Not ActiveChart Is Nothing Then
+    'User confirmation
+    If MsgBox("Modify X-scale?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    mChart.SetX_Next ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Modify X-scale?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.SetX_Next obj.Chart
+      End If
+    Next
+  End If
+End Sub
+
+ Public Sub SetX_ScaleAuto()
+  Dim obj As Object
+  
+
+  If Not ActiveChart Is Nothing Then
+    'User confirmation
+    If MsgBox("Auto X-scale?" & Chr(13) & Chr(10) & ActiveChart.Name, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    'My modifers sub
+    mChart.SetX_AutoScale ActiveChart
+  Else
+    'User confirmation to modify more than one graph
+    If MsgBox("Auto X-scale?" & Chr(13) & Chr(10) & Selection.Count, vbOKCancel, "?") <> 1 Then
+      Exit Sub
+    End If
+
+    For Each obj In Selection
+      If TypeName(obj) = "ChartObject" Then
+        mChart.SetX_AutoScale obj.Chart
+      End If
+    Next
+  End If
+End Sub
        
        
        
@@ -502,5 +579,7 @@ Sub SetY1Scale()
 '    Application.ActiveChart.Axes(xlCategory).MinimumScale = 0.8
     
 End Sub
+
+
 
 

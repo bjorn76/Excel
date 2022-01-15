@@ -67,6 +67,11 @@ Private Sub btnRefresh_Click()
   UserForm_Initialize
 End Sub
 
+
+
+
+
+
 '***********************************************************
 'Form Event Handlers
 '***********************************************************
@@ -343,7 +348,9 @@ Private Sub btnLineW_Click()
 End Sub
 
 
-
+Private Sub cbScale30_Click()
+  mChartSelected.SetX_ScaleFirst30s
+End Sub
 
 
 Private Sub btnScale_Click()
@@ -351,9 +358,15 @@ Private Sub btnScale_Click()
   
 End Sub
 
+Private Sub cbAuto_Click()
+ mChartSelected.SetX_ScaleAuto
+
+End Sub
 
 
-
+Private Sub cbNext30_Click()
+ mChartSelected.SetX_ScaleNext
+End Sub
 
 
 
